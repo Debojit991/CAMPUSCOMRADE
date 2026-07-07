@@ -119,11 +119,16 @@ function renderShop(items) {
         if (p.originalPrice) {
             const discount = Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100);
             badgesHtml += `<span style="background: #ef4444; color: white; font-size: 0.75rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; margin-right: 5px; margin-left: 5px;">${discount}% OFF</span>`;
-        }
-
-        // Action Buttons Logic
+            // Action Buttons Logic
         let actionButtonsHtml = '';
-        if (p.isCustomizable) {
+        if (p.outOfStock) {
+            actionButtonsHtml = `
+                <div class="card-action-row" onclick="event.stopPropagation()">
+                    <button class="btn-add-cart compact" disabled style="background: #cbd5e1; color: #64748b; width: 100%; cursor: not-allowed; display: flex; align-items: center; justify-content: center; gap: 5px; border: none; padding: 10px; border-radius: 8px; font-weight: 700;">
+                        <i class="fas fa-ban"></i> Out of Stock
+                    </button>
+                </div>`;
+        } else if (p.isCustomizable) {
             actionButtonsHtml = `
                 <div class="card-action-row">
                     <button class="btn-add-cart compact" onclick="window.location.href='product.html?id=${p.id}'" style="background: var(--brand-b2b); width: 100%;">
@@ -153,9 +158,10 @@ function renderShop(items) {
         }
 
         const cardHtml = `
-       <div class="product-card" id="product-card-${p.id}" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer;">
+       <div class="product-card" id="product-card-${p.id}" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer; ${p.outOfStock ? 'opacity: 0.85;' : ''}">
             <div class="card-img-box">
               <img src="${p.image}" alt="${p.title}" loading="lazy" width="300" height="300">
+              ${p.outOfStock ? `<div class="out-of-stock-overlay"><i class="fas fa-ban" style="margin-right: 5px;"></i> OUT OF STOCK</div>` : ''}
             </div>
             <div class="card-details">
                 <div class="card-header-row">

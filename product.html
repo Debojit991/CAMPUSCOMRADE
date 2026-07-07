@@ -282,6 +282,21 @@
             }
         }
 
+        // --- OUT OF STOCK LOGIC ---
+        if (p.outOfStock) {
+            const qtyContainer = document.getElementById('qty-container');
+            if (qtyContainer) qtyContainer.style.display = 'none';
+            
+            const btn = document.getElementById('btn-detail-add');
+            if (btn) {
+                btn.innerHTML = `<i class="fas fa-ban" style="margin-right: 5px;"></i> Out of Stock`;
+                btn.setAttribute('disabled', 'true');
+                btn.style.background = '#cbd5e1';
+                btn.style.color = '#64748b';
+                btn.style.cursor = 'not-allowed';
+            }
+        }
+
         // --- CUSTOMIZATION LOGIC ---
         if(p.isCustomizable) {
             isCustomProduct = true;
@@ -298,7 +313,7 @@
         
         // Add to Cart Logic
         const btnAdd = document.getElementById('btn-detail-add');
-        if (btnAdd && !(p.directWhatsApp || p.id === 1)) {
+        if (btnAdd && !(p.directWhatsApp || p.id === 1) && !p.outOfStock) {
             btnAdd.onclick = () => {
                 if(window.addToCart) {
                     if(isCustomProduct) {

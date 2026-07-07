@@ -2048,3 +2048,44 @@ ul { list-style: none; }
         padding: 12px 20px;
     }
 }
+
+/* =========================================
+   Out of Stock & Promotional Badges
+   ========================================= */
+.out-of-stock-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 255, 255, 0.75);
+    color: #dc2626;
+    font-size: 0.95rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(1.5px);
+    z-index: 2;
+}
+
+.hero-promo-badge {
+    position: absolute;
+    top: -12px;
+    right: 15px;
+    background: #ea580c;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(234, 88, 12, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+

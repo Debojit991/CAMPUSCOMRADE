@@ -71,7 +71,7 @@ const products = [
   },
   {
     id: 2, type: 'student', title: "Workshop Lab Coat (Navy)", category: "lab", price: 200, originalPrice: 300,
-    image: "https://5.imimg.com/data5/SELLER/Default/2024/6/425540363/HZ/OI/TT/19725988/lab-coat.jpg?w=400", seller: "S. Roy (Student)", description: "Freshly dry-cleaned. Size M."
+    image: "https://5.imimg.com/data5/SELLER/Default/2024/6/425540363/HZ/OI/TT/19725988/lab-coat.jpg?w=400", seller: "S. Roy (Student)", description: "Freshly dry-cleaned. Size M.", outOfStock: true
   },
  {
     id: 3,
@@ -83,7 +83,8 @@ const products = [
     isComplete: true,
     missingItems: [],
     image: "https://rukminim2.flixcart.com/image/480/480/kw104nk0/hospital-scrub/b/s/0/unisex-lab-coat-apron-cotton-white-colour-for-medical-students-original-imag8sgsgwkebmh7.jpeg?q=90",
-    seller: "S. Roy"
+    seller: "S. Roy",
+    outOfStock: true
   }, {
     id: 4,
     type: 'student',
