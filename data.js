@@ -66,8 +66,8 @@ const products = [
     description: "Complete set of essential engineering books including BS Grewal, ANSI C, and BL Theraja."
   },
   {
-    id: 1, type: 'student', title: "Engineering Drawing Tool Kit", category: "tools", price: 999, originalPrice: 1500,
-    image: "https://m.media-amazon.com/images/I/81DGdQOisXL._AC_UF350,350_QL80_.jpg", seller: "Arjun M. (Student)", description: "Used for 1 semester. Complete set.", condition: "Brand New"
+    id: 1, type: 'student', title: "Engineering Drawing Tool Kit", category: "tools", price: 899, originalPrice: 1500,
+    image: "https://m.media-amazon.com/images/I/81DGdQOisXL._AC_UF350,350_QL80_.jpg", seller: "Sourced from Factories", description: "Brand new, sourced directly from factories. Complete set.", condition: "Brand New", isFastSelling: true
   },
   {
     id: 2, type: 'student', title: "Workshop Lab Coat (Navy)", category: "lab", price: 200, originalPrice: 300,

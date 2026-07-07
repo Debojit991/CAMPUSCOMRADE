@@ -112,6 +112,9 @@ function renderShop(items) {
             } else {
                 badgesHtml = `<span style="background:#ecfdf5; color:#059669; font-size:0.7rem; padding:4px 8px; border-radius:4px; font-weight:700;">${cond}</span>`;
             }
+            if (p.isFastSelling || p.id === 1) {
+                badgesHtml += `<span style="background:#fff7ed; color:#ea580c; font-size:0.7rem; padding:4px 8px; border-radius:4px; font-weight:700; margin-left:5px; border: 1px solid #ffedd5; display: inline-flex; align-items: center; gap: 3px;"><i class="fas fa-fire" style="color:#f97316;"></i> Fast Selling</span>`;
+            }
         }
         if (p.originalPrice) {
             const discount = Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100);
@@ -126,6 +129,14 @@ function renderShop(items) {
                     <button class="btn-add-cart compact" onclick="window.location.href='product.html?id=${p.id}'" style="background: var(--brand-b2b); width: 100%;">
                         Customize <i class="fas fa-edit" style="margin-left:5px;"></i>
                     </button>
+                </div>`;
+        } else if (p.directWhatsApp || p.id === 1) {
+            const waText = encodeURIComponent(`Hi Campus Team, I’m interested in the following product:\n\nProduct Name: Engineering Drawing/Graphics Tool Kit (Drafter + Clips)\nPrice: ₹899\nProduct ID: 1\nQuantity: 1\nTotal Value: ₹899\nCampus: IEM Salt Lake\nSource: Campus Marketplace App\n\nPlease help me connect and proceed further.`);
+            actionButtonsHtml = `
+                <div class="card-action-row" onclick="event.stopPropagation()">
+                    <a href="https://wa.me/919874796057?text=${waText}" target="_blank" class="btn-add-cart compact" style="background: #25D366; width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; text-decoration: none;">
+                        <i class="fab fa-whatsapp"></i> Chat with representative
+                    </a>
                 </div>`;
         } else {
             actionButtonsHtml = `

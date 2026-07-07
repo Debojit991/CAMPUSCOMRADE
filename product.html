@@ -114,7 +114,7 @@
         Fill names for each item
     </div>
 </div>
-                <div style="margin-top: 30px;">
+                <div id="qty-container" style="margin-top: 30px;">
                     <label style="display:block; font-size:0.85rem; color:#64748b; margin-bottom:10px; font-weight:600;">Quantity</label>
                     
                     <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
@@ -124,15 +124,15 @@
                             <button class="qty-btn-md" onclick="updatePageQty(1)">+</button>
                         </div>
                     </div>
+                </div>
 
-                    <div class="m-actions" style="display: flex; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
-                        <button id="btn-detail-add" class="btn-modal-primary" style="flex: 2;">
-                            Add To Cart
-                        </button>
-                        <button onclick="window.location.href='index.html#shop-section'" class="btn-modal-outline" style="flex: 1; text-align:center;">
-                            Back to Products
-                        </button>
-                    </div>
+                <div class="m-actions" style="display: flex; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
+                    <button id="btn-detail-add" class="btn-modal-primary" style="flex: 2;">
+                        Add To Cart
+                    </button>
+                    <button onclick="window.location.href='index.html#shop-section'" class="btn-modal-outline" style="flex: 1; text-align:center;">
+                        Back to Products
+                    </button>
                 </div>
             </div>
         </div>
@@ -268,6 +268,20 @@
             document.getElementById('p-original').style.display = 'inline';
         }
 
+        // --- WHATSAPP DIRECT LOGIC ---
+        if (p.directWhatsApp || p.id === 1) {
+            const qtyContainer = document.getElementById('qty-container');
+            if (qtyContainer) qtyContainer.style.display = 'none';
+            
+            const btn = document.getElementById('btn-detail-add');
+            if (btn) {
+                const waText = encodeURIComponent(`Hi Campus Team, I’m interested in the following product:\n\nProduct Name: Engineering Drawing/Graphics Tool Kit (Drafter + Clips)\nPrice: ₹899\nProduct ID: 1\nQuantity: 1\nTotal Value: ₹899\nCampus: IEM Salt Lake\nSource: Campus Marketplace App\n\nPlease help me connect and proceed further.`);
+                btn.outerHTML = `<a id="btn-detail-add" href="https://wa.me/919874796057?text=${waText}" target="_blank" class="btn-modal-primary" style="flex: 2; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; background: #25D366; font-weight: 700;">
+                    <i class="fab fa-whatsapp"></i> Chat with representative
+                </a>`;
+            }
+        }
+
         // --- CUSTOMIZATION LOGIC ---
         if(p.isCustomizable) {
             isCustomProduct = true;
@@ -276,30 +290,35 @@
             
             // Change Button Text
             const btn = document.getElementById('btn-detail-add');
-            btn.innerHTML = `Save & Add To Cart`;
-            btn.style.background = "var(--brand-b2b)";
+            if (btn) {
+                btn.innerHTML = `Save & Add To Cart`;
+                btn.style.background = "var(--brand-b2b)";
+            }
         }
         
         // Add to Cart Logic
-        document.getElementById('btn-detail-add').onclick = () => {
-            if(window.addToCart) {
-                if(isCustomProduct) {
-                    // Gather Inputs
-                    const inputs = document.querySelectorAll('.c-input');
-                    const names = Array.from(inputs).map(i => i.value.trim());
-                    
-                    // Validation: Check if any empty
-                    if(names.some(n => n === '')) {
-                        alert("Please enter details for all " + currentPageQty + " items.");
-                        return;
+        const btnAdd = document.getElementById('btn-detail-add');
+        if (btnAdd && !(p.directWhatsApp || p.id === 1)) {
+            btnAdd.onclick = () => {
+                if(window.addToCart) {
+                    if(isCustomProduct) {
+                        // Gather Inputs
+                        const inputs = document.querySelectorAll('.c-input');
+                        const names = Array.from(inputs).map(i => i.value.trim());
+                        
+                        // Validation: Check if any empty
+                        if(names.some(n => n === '')) {
+                            alert("Please enter details for all " + currentPageQty + " items.");
+                            return;
+                        }
+                        
+                        window.addToCart(p.id, currentPageQty, { names: names });
+                    } else {
+                        window.addToCart(p.id, currentPageQty);
                     }
-                    
-                    window.addToCart(p.id, currentPageQty, { names: names });
-                } else {
-                    window.addToCart(p.id, currentPageQty);
                 }
-            }
-        };
+            };
+        }
     });
 </script>
 </body>
