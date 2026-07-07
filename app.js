@@ -119,7 +119,9 @@ function renderShop(items) {
         if (p.originalPrice) {
             const discount = Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100);
             badgesHtml += `<span style="background: #ef4444; color: white; font-size: 0.75rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; margin-right: 5px; margin-left: 5px;">${discount}% OFF</span>`;
-            // Action Buttons Logic
+        }
+
+        // Action Buttons Logic
         let actionButtonsHtml = '';
         if (p.outOfStock) {
             actionButtonsHtml = `
