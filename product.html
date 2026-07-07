@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Campus Comrade | Buy Engineering & College Books in Kolkata</title>
+    <meta name="description" content="Campus Comrade is the premier marketplace for IEM, UEM, and college students in Kolkata. Buy engineering books, lab coats, drafters, and more at discounted prices.">
+    <meta name="keywords" content="college books, iem books, uem books, campus comrade, engineering books kolkata, iem marketplace, uem marketplace">
+    
+    <!-- WhatsApp & Social SEO (Open Graph) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Campus Comrade | Buy Engineering & College Books in Kolkata">
+    <meta property="og:description" content="Buy engineering tools, books, and lab coats at the best prices.">
+    <meta property="og:image" content="https://www.dropbox.com/scl/fi/22h8eyahl0pjunk078jr8/Screenshot-2026-02-02-210853.png?rlkey=7hteyrzpqyojq4jjngp2pbvmn&st=51ip9w6f&raw=1">
+    <meta property="og:site_name" content="Campus Comrade">
+    
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body { background: #f8fafc; padding-bottom: 90px; }
+        .product-page-container { margin-top: 20px; margin-bottom: 60px; padding: 0 15px; }
+        .page-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        @media (min-width: 768px) {
+            .page-grid { grid-template-columns: 1.2fr 1fr; min-height: 500px; }
+            .modal-image-col { border-right: 1px solid #e2e8f0; height: 100%; display: flex; align-items: center; background: #f8fafc; }
+            .product-page-container { margin-top: 40px; max-width: 1000px; }
+        }
+        .modal-image-col { background: white; padding: 20px; display: flex; justify-content: center; align-items: center; }
+        .main-image-wrapper { width: 100%; display: flex; justify-content: center; }
+        .main-image-wrapper img { max-height: 350px; width: auto; max-width: 100%; object-fit: contain; }
+        .btn-back-nav {
+            background: white; border: 1px solid #e2e8f0; padding: 8px 16px; 
+            border-radius: 50px; font-weight: 600; color: #64748b; 
+            display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .btn-back-nav:hover { border-color: #10b981; color: #10b981; }
+    </style>
+</head>
+<body>
+<header class="app-header">
+        <div class="brand" style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="window.location.href='index.html'">
+    <svg width="42" height="42" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="8" fill="#F1F5F9"/>
+        <path d="M4 14L20 6L36 14L20 22L4 14Z" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 17V24C10 24 13 27 20 27C27 27 30 24 30 24V17" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M36 14V19" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M36 19L32 23L34 28L39 28L41 23L36 19Z" fill="#10B981" stroke="#10B981" stroke-width="2"/>
+        <circle cx="35" cy="22" r="1" fill="white"/>
+    </svg>
+    
+    <div style="line-height: 1.1; display:flex; flex-direction:column;">
+        <span style="font-size: 1.2rem; font-weight: 800; color: #0F172A; letter-spacing: -0.5px;">CAMPUS</span>
+        <span style="font-size: 0.85rem; font-weight: 700; color: #10B981; letter-spacing: 2px; text-transform: uppercase;">COMRADE</span>
+    </div>
+</div>
+        <div class="cart-icon-wrap" onclick="toggleCart()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span id="cart-count" class="cart-badge">0</span>
+        </div>
+    </header>
+
+<main class="container product-page-container">
+       <div class="page-grid">
+            
+            <div class="modal-image-col" style="flex-direction: column;">
+                <div id="p-carousel" class="product-carousel"></div>
+                <div id="p-carousel-indicators" class="carousel-indicators"></div>
+            </div>
+
+            <div class="modal-info-col" style="padding: 25px;">
+                <div class="m-header">
+                    <span id="p-cat" class="m-cat-tag">Category</span>
+                </div>
+
+                <h1 id="p-title" style="font-size: 1.6rem; margin-bottom: 10px; line-height: 1.3; color: #0f172a;">Loading...</h1>
+                
+                <div class="m-price-block" style="border-bottom: 1px solid #f1f5f9; padding-bottom: 15px; margin-bottom: 20px;">
+                    <span id="p-price" class="m-price" style="font-size: 1.8rem; color: #0f172a;">₹0</span>
+                    <span id="p-original" class="m-original" style="display:none; font-size: 1.1rem; color: #94a3b8; text-decoration: line-through; margin-left: 10px;"></span>
+                </div>
+
+                <div class="m-section">
+                    <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 8px;">Description</h3>
+                    <p id="p-desc" style="color: #64748b; line-height: 1.6; font-size: 0.95rem;">Loading details...</p>
+                </div>
+
+
+<div id="custom-section" class="custom-field-box" style="display:none;">
+    <div class="custom-title">
+        <span><i class="fas fa-pen-fancy"></i> Customization</span>
+        <span style="font-size:0.75rem; font-weight:400; color:#64748b;">(Required)</span>
+    </div>
+    <div id="custom-inputs-container"></div>
+    <div style="margin-top:10px; font-size:0.8rem; color:#64748b; text-align:right;">
+        Fill names for each item
+    </div>
+</div>
+                <div style="margin-top: 30px;">
+                    <label style="display:block; font-size:0.85rem; color:#64748b; margin-bottom:10px; font-weight:600;">Quantity</label>
+                    
+                    <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
+                        <div class="qty-control-md">
+                            <button class="qty-btn-md" onclick="updatePageQty(-1)">-</button>
+                            <span id="p-qty-val" class="qty-val-md">1</span>
+                            <button class="qty-btn-md" onclick="updatePageQty(1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="m-actions" style="display: flex; gap: 10px; border-top: 1px solid #f1f5f9; padding-top: 20px;">
+                        <button id="btn-detail-add" class="btn-modal-primary" style="flex: 2;">
+                            Add To Cart
+                        </button>
+                        <button onclick="window.location.href='index.html#shop-section'" class="btn-modal-outline" style="flex: 1; text-align:center;">
+                            Back to Products
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cartOverlay" class="cart-overlay" onclick="toggleCart()">
+            <div class="cart-drawer" onclick="event.stopPropagation()">
+                <div class="cart-header">
+                    <h2>Your Cart (<span id="cart-total-count">0</span>)</h2>
+                    <button class="btn-close-cart" onclick="toggleCart()">×</button>
+                </div>
+                <div id="cartBody" class="cart-body">
+                    <p style="text-align:center; margin-top:50px; color:#94a3b8;">Your cart is empty.</p>
+                </div>
+                <div class="cart-footer">
+                    <div class="cart-total">
+                        <span>Total</span>
+                        <span id="cart-final-price">₹0</span>
+                    </div>
+                    <button class="btn-checkout" onclick="window.location.href='checkout.html'">
+                        Proceed to Checkout ➔
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<script src="data.js" defer></script>
+    <script type="module" src="app.js"></script>
+
+   <script>
+    let currentPageQty = 1;
+    let isCustomProduct = false;
+
+    window.updatePageQty = (change) => {
+        currentPageQty += change;
+        if(currentPageQty < 1) currentPageQty = 1;
+        if(currentPageQty > 50) currentPageQty = 50; // Higher limit for medals
+        
+        document.getElementById('p-qty-val').innerText = currentPageQty;
+        
+        // Dynamic Re-render of inputs if custom product
+        if(isCustomProduct) renderCustomInputs(currentPageQty);
+    };
+
+    function renderCustomInputs(qty) {
+        const container = document.getElementById('custom-inputs-container');
+        // Save existing values to not lose text when qty changes
+        const currentValues = Array.from(document.querySelectorAll('.c-input')).map(i => i.value);
+        
+        container.innerHTML = '';
+        
+        for(let i = 0; i < qty; i++) {
+            const val = currentValues[i] || '';
+            container.innerHTML += `
+                <div class="custom-input-row">
+                    <span class="c-idx">#${i+1}</span>
+                    <input type="text" class="c-input" placeholder="Enter Name / Text" value="${val}">
+                </div>`;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = parseInt(params.get('id'));
+
+        if (typeof products === 'undefined') { console.error("Data not loaded"); return; }
+        const p = products.find(x => x.id === id);
+
+        if(!p) return;
+
+        // Populate Data
+        const carousel = document.getElementById('p-carousel');
+        const indicators = document.getElementById('p-carousel-indicators');
+
+        if (p.images && p.images.length > 0) {
+            // Render Slides
+            carousel.innerHTML = p.images.map(img => `<div class="carousel-slide"><img src="${img}" alt="${p.title}"></div>`).join('');
+            
+            // Render Indicators
+            indicators.innerHTML = p.images.map((_, index) => `<div class="indicator-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>`).join('');
+
+            // Indicator Click Navigation
+            const dots = document.querySelectorAll('.indicator-dot');
+            dots.forEach(dot => {
+                dot.onclick = () => {
+                    const idx = parseInt(dot.dataset.index);
+                    carousel.scrollTo({ left: idx * carousel.clientWidth, behavior: 'smooth' });
+                };
+            });
+
+            // Scroll Sync Logic
+            carousel.onscroll = () => {
+                const idx = Math.round(carousel.scrollLeft / carousel.clientWidth);
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === idx);
+                });
+            };
+        } else {
+            carousel.innerHTML = `<div class="carousel-slide"><img src="${p.image}" alt="${p.title}"></div>`;
+            indicators.style.display = 'none';
+        }
+
+        // Auto-Swipe Logic
+        let carouselTimer;
+        const startCarousel = () => {
+            if (!p.images || p.images.length <= 1) return;
+            carouselTimer = setInterval(() => {
+                if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
+                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    carousel.scrollBy({ left: carousel.clientWidth, behavior: 'smooth' });
+                }
+            }, 3000);
+        };
+        const stopCarousel = () => clearInterval(carouselTimer);
+
+        startCarousel();
+
+        carousel.addEventListener('mouseenter', stopCarousel);
+        carousel.addEventListener('mouseleave', startCarousel);
+        carousel.addEventListener('touchstart', stopCarousel, { passive: true });
+        carousel.addEventListener('touchend', startCarousel, { passive: true });
+
+
+
+        document.getElementById('p-title').innerText = p.title;
+        document.getElementById('p-cat').innerText = p.category;
+        document.getElementById('p-price').innerText = `₹${p.price}`;
+        document.getElementById('p-desc').innerText = p.description;
+
+        if(p.originalPrice && p.originalPrice > p.price) {
+            document.getElementById('p-original').innerText = `₹${p.originalPrice}`;
+            document.getElementById('p-original').style.display = 'inline';
+        }
+
+        // --- CUSTOMIZATION LOGIC ---
+        if(p.isCustomizable) {
+            isCustomProduct = true;
+            document.getElementById('custom-section').style.display = 'block';
+            renderCustomInputs(1);
+            
+            // Change Button Text
+            const btn = document.getElementById('btn-detail-add');
+            btn.innerHTML = `Save & Add To Cart`;
+            btn.style.background = "var(--brand-b2b)";
+        }
+        
+        // Add to Cart Logic
+        document.getElementById('btn-detail-add').onclick = () => {
+            if(window.addToCart) {
+                if(isCustomProduct) {
+                    // Gather Inputs
+                    const inputs = document.querySelectorAll('.c-input');
+                    const names = Array.from(inputs).map(i => i.value.trim());
+                    
+                    // Validation: Check if any empty
+                    if(names.some(n => n === '')) {
+                        alert("Please enter details for all " + currentPageQty + " items.");
+                        return;
+                    }
+                    
+                    window.addToCart(p.id, currentPageQty, { names: names });
+                } else {
+                    window.addToCart(p.id, currentPageQty);
+                }
+            }
+        };
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Item | Campus Comrade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "4726fae6-73c3-4664-b98d-f3e4580dcbd8",
+    });
+  });
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VQFB7F5V5R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VQFB7F5V5R');
+</script>
+<link rel="stylesheet" href="styles.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+   <header class="app-header">
+       <div class="brand" style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="window.location.href='index.html'">
+    <svg width="42" height="42" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="8" fill="#F1F5F9"/>
+        <path d="M4 14L20 6L36 14L20 22L4 14Z" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 17V24C10 24 13 27 20 27C27 27 30 24 30 24V17" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M36 14V19" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M36 19L32 23L34 28L39 28L41 23L36 19Z" fill="#10B981" stroke="#10B981" stroke-width="2"/>
+        <circle cx="35" cy="22" r="1" fill="white"/>
+    </svg>
+    
+    <div style="line-height: 1.1; display:flex; flex-direction:column;">
+        <span style="font-size: 1.2rem; font-weight: 800; color: #0F172A; letter-spacing: -0.5px;">CAMPUS</span>
+        <span style="font-size: 0.85rem; font-weight: 700; color: #10B981; letter-spacing: 2px; text-transform: uppercase;">COMRADE</span>
+    </div>
+</div>
+        <nav class="desktop-nav">
+            <a href="index.html">Marketplace</a>
+            <a href="request.html" class="active">Requests</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="request-header">
+      <div class="req-icon-circle">
+     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+</div>
+        <h1 style="font-size: 2rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Procurement & Wishlist</h1>
+<p style="color: var(--text-muted);">Request bulk quotes for your college or find specific books for your semester.</p>
+    </div>
+
+    <main class="request-layout" style="padding: 0 20px 60px 20px;">
+        
+        <div class="req-form-box">
+            <div class="section-label">Submit a Request</div>
+            
+            <form action="https://api.web3forms.com/submit" method="POST">
+                
+                <input type="hidden" name="access_key" value="1777e7ff-ce6d-4730-9a0b-4e0283fd1d3f">
+               <div class="form-group">
+                    <label>I am a... *</label>
+                    <select name="user_type" class="form-control" onchange="this.value === 'Purchase Officer' ? document.getElementById('b2b-fields').style.display='block' : document.getElementById('b2b-fields').style.display='none'">
+                        <option value="Student">Student</option>
+                        <option value="Purchase Officer">Institute Purchase Officer</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>College / School Name *</label>
+                    <input type="text" name="institute_name" class="form-control" placeholder="e.g. IEM Kolkata / DPS New Town" required>
+                </div>
+                <div id="b2b-fields" style="display: none; background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+                    <div class="row-2">
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label style="font-size:0.85rem;">Department Name</label>
+                            <input type="text" name="department" class="form-control" placeholder="e.g. CSE Dept / Library">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label style="font-size:0.85rem;">GST Number (Optional)</label>
+                            <input type="text" name="gst_no" class="form-control" placeholder="For tax invoice">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>What are you looking for? *</label>
+                    <input type="text" name="looking_for" class="form-control" placeholder="e.g. Lab Coat, Engineering Mathematics Book" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select name="category" class="form-control">
+                        <option>Select a category</option>
+                        <option>Electronics</option>
+                        <option>Books</option>
+                        <option>Lab Gear</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Description & Requirements *</label>
+                    <textarea name="message" class="form-control" rows="4" placeholder="Describe what you need, preferred condition, specific features..." required></textarea>
+                </div>
+
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Budget (Optional)</label>
+                        <input type="text" name="budget" class="form-control" placeholder="₹ Enter Budget">
+                    </div>
+                    <div class="form-group">
+                        <label>Urgency *</label>
+                        <select name="urgency" class="form-control">
+                            <option>Standard</option>
+                            <option>Urgent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-label" style="margin-top: 20px;">Your Contact Information</div>
+
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" class="form-control" placeholder="your.email@campuscomrade.in" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="text" name="phone" class="form-control" placeholder="+91 98765 43210" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" style="background: var(--brand); margin-top: 10px;">Submit Request</button>
+            </form>
+            </div>
+
+        <div class="req-sidebar">
+            
+            <div class="sidebar-box">
+                <h3 style="font-size: 1rem; margin-bottom: 20px;">How It Works</h3>
+                
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-text">
+                        <h4>Submit Your Request</h4>
+                        <p>Tell us what you're looking for with as much detail as possible.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-text">
+                        <h4>We Notify Sellers</h4>
+                        <p>Your request is shared with the community instantly.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-text">
+                        <h4>Get Responses</h4>
+                        <p>Interested sellers reach out to you directly with offers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-box">
+                <h3 style="font-size: 1rem; margin-bottom: 20px;">Recent Requests</h3>
+                
+                <div class="recent-req-item">
+    <div>
+        <h4 style="font-size: 0.9rem; margin-bottom: 2px;">Lab Coat</h4>
+        <span style="font-size: 0.75rem; color: #64748b;">Budget: ₹150</span>
+    </div>
+    <span class="req-tag active">Active</span>
+</div>
+
+<div class="recent-req-item">
+    <div>
+        <h4 style="font-size: 0.9rem; margin-bottom: 2px;">Scientific Calculator</h4>
+        <span style="font-size: 0.75rem; color: #64748b;">Budget: ₹1,200</span>
+    </div>
+    <span class="req-tag active">Active</span>
+</div>
+
+<div class="recent-req-item">
+    <div>
+        <h4 style="font-size: 0.9rem; margin-bottom: 2px;">Engineering Drawing T-Scale</h4>
+        <span style="font-size: 0.75rem; color: #64748b;">Budget: ₹250</span>
+    </div>
+    <span class="req-tag done">Fulfilled</span>
+</div>
+
+            </div>
+        </div>
+
+    </main>
+
+ <nav class="mobile-nav" id="mobileNavBar">
+    <a href="index.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 2px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        Marketplace
+    </a>
+
+    <a href="index.html#shop-section" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 2px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        Shop
+    </a>
+
+    <a href="orders.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 2px;">
+            <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"></path>
+            <rect x="9" y="3" width="6" height="4" rx="2"></rect>
+            <line x1="9" y1="14" x2="15" y2="14"></line>
+            <line x1="9" y1="10" x2="15" y2="10"></line>
+        </svg>
+        Orders
+    </a>
+
+    <a href="request.html" class="nav-item active">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 2px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        Requests
+    </a>
+
+    <a href="contact.html" class="nav-item">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 2px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .57 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.81.57A2 2 0 0 1 22 16.92z"></path></svg>
+        Contact
+    </a>
+</nav>
+</body>
+</html>

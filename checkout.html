@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Campus Comrade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Page-specific internal layout adjustments */
+        body { background: #f8fafc; }
+        .checkout-layout { max-width: 800px; margin: 40px auto; padding: 0 20px 100px 20px; }
+        .step-indicator { display: flex; gap: 15px; margin-bottom: 30px; font-weight: 600; color: var(--text-muted); }
+        .step-indicator .active { color: var(--brand); }
+    </style>
+</head>
+<body>
+
+    <header class="app-header">
+     <div class="brand" style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="window.location.href='index.html'">
+    <svg width="42" height="42" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="8" fill="#F1F5F9"/>
+        <path d="M4 14L20 6L36 14L20 22L4 14Z" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 17V24C10 24 13 27 20 27C27 27 30 24 30 24V17" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M36 14V19" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M36 19L32 23L34 28L39 28L41 23L36 19Z" fill="#10B981" stroke="#10B981" stroke-width="2"/>
+        <circle cx="35" cy="22" r="1" fill="white"/>
+    </svg>
+    
+    <div style="line-height: 1.1; display:flex; flex-direction:column;">
+        <span style="font-size: 1.2rem; font-weight: 800; color: #0F172A; letter-spacing: -0.5px;">CAMPUS</span>
+        <span style="font-size: 0.85rem; font-weight: 700; color: #10B981; letter-spacing: 2px; text-transform: uppercase;">COMRADE</span>
+    </div>
+</div>
+        <nav class="desktop-nav" style="display:flex;">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Shop</a>
+        </nav>
+    </header>
+
+    <main class="checkout-layout">
+        <div class="checkout-header">
+            <div class="step-indicator">
+                <span id="step-1-indicator" class="step-active">1. Address</span>
+                <span>/</span>
+                <span id="step-2-indicator" class="step-inactive">2. Payments</span>
+            </div>
+            <h1 id="checkout-main-heading" style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 10px;">1. Select Delivery Address</h1>
+            <p style="color: var(--text-muted);">Where should we deliver your items?</p>
+        </div>
+
+        <div id="checkoutContainer" class="checkout-body" style="margin-top: 30px;">
+            <div id="addressListView" class="view-section">
+                <div id="savedAddressGrid" class="address-grid">
+                    </div>
+                <button class="btn-add-new-addr" onclick="CheckoutManager.showForm()">
+                    + Add New Address
+                </button>
+            </div>
+
+            <div id="addressFormView" class="view-section" style="display: none;">
+                <div class="form-card">
+                    <h3 style="margin-bottom: 20px; font-weight: 700;">Enter Address Details</h3>
+                    <form id="checkoutForm" onsubmit="CheckoutManager.handleSave(event)">
+                        <div class="checkout-form-grid">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="addr-name" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="addr-phone" class="form-control" placeholder="+91..." required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>College / Institute</label>
+                                <input type="text" id="addr-college" class="form-control" placeholder="e.g. IEM Kolkata" required>
+                            </div>
+                             <div class="form-group full-width">
+                                <label>Email Address</label>
+                                <input type="email" id="addr-email" class="form-control" placeholder="student@example.com" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Street Address / Hostel Block</label>
+                                <textarea id="addr-street" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Landmark</label>
+                                <input type="text" id="addr-landmark" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Pincode</label>
+                                <input type="text" id="addr-zip" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn-cancel" onclick="CheckoutManager.showList()">Cancel</button>
+                            <button type="submit" class="btn-save-addr">Save & Use Address</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="paymentView" class="view-section" style="display: none;">
+    
+    <div class="summary-card">
+        <div class="summary-row">
+            <span>Cart Total</span>
+            <span id="pay-cart-total">₹0</span>
+        </div>
+
+        <div class="summary-divider"></div>
+        <div class="summary-row total">
+            <span>Payable Amount</span>
+            <span id="pay-final-amount">₹0</span>
+        </div>
+        <p id="pay-note" class="pay-note">Standard COD rates apply.</p>
+    </div>
+
+    <h3 class="section-title">Choose Payment Mode</h3>
+    
+    <div class="payment-options">
+        
+        <label class="payment-card recommended">
+            <input type="radio" name="paymentMode" value="upi" onchange="CheckoutManager.handlePaymentChange()">
+            <div class="p-card-content">
+                <div class="p-header">
+                    <span class="p-title"><i class="fas fa-qrcode"></i> Pay via UPI</span>
+                </div>
+                <p class="p-desc">GPay, PhonePe, Paytm. Instant verification.</p>
+            </div>
+            <div class="p-check-icon"><i class="fas fa-check-circle"></i></div>
+        </label>
+
+        <label class="payment-card">
+            <input type="radio" name="paymentMode" value="partial-cod" onchange="CheckoutManager.handlePaymentChange()">
+            <div class="p-card-content">
+                <div class="p-header">
+                    <span class="p-title"><i class="fas fa-coins"></i> Partial COD</span>
+                </div>
+                <p class="p-desc">Pay 50% now to book, rest on delivery.</p>
+            </div>
+            <div class="p-check-icon"><i class="fas fa-check-circle"></i></div>
+        </label>
+
+        <label class="payment-card">
+            <input type="radio" name="paymentMode" value="cod" checked onchange="CheckoutManager.handlePaymentChange()">
+            <div class="p-card-content">
+                <div class="p-header">
+                    <span class="p-title"><i class="fas fa-truck"></i> Cash on Delivery</span>
+                </div>
+                <p class="p-desc">Pay full amount when items arrive.</p>
+            </div>
+            <div class="p-check-icon"><i class="fas fa-check-circle"></i></div>
+        </label>
+    </div>
+
+    <div id="digitalPaymentSection" style="display:none;">
+        
+        <div class="upi-tabs">
+            <button class="upi-tab active" onclick="CheckoutManager.switchUpiTab('qr')">Scan QR</button>
+            <button class="upi-tab" onclick="CheckoutManager.switchUpiTab('vpa')">Enter UPI ID</button>
+        </div>
+
+        <div id="tab-qr" class="upi-content active">
+            <div class="qr-box">
+    <h4 style="font-size: 1.3rem; font-weight:800; margin-bottom: 5px; color:#0f172a;">Scan to Pay</h4>
+    <p style="color:#64748b; font-size:0.9rem; margin-bottom: 25px;">GooglePay • PhonePe • Paytm</p>
+    
+    <div style="width: 220px; height: 220px; margin: 0 auto; background: #f1f5f9; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+        <a href="upi://pay?pa=6290259296@superyes&pn=Campus%20Comrade&cu=INR" title="Tap to pay on mobile">
+            <img id="upi-qr-image" 
+                 src="https://chart.googleapis.com/chart?chs=220x220&cht=qr&chl=upi://pay?pa=6290259296@superyes&pn=Campus%20Comrade&cu=INR&choe=UTF-8" 
+                 onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent('upi://pay?pa=6290259296@superyes&pn=Campus%20Comrade&cu=INR')" 
+                 alt="UPI QR Code" 
+                 style="width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply;">
+        </a>
+    </div>
+    
+    <div id="qr-amount-display" style="font-weight:800; font-size:1.5rem; color:#0f172a; margin-top:20px;"></div>
+
+    <!-- NEW: MOBILE DEEP LINK BUTTON -->
+    <a id="mobile-upi-link" href="#" target="_blank" style="display: none; width: 100%; max-width: 250px; margin: 20px auto 0 auto; background: #2563eb; color: white; padding: 12px 20px; border-radius: 50px; font-weight: 700; text-decoration: none; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">
+        <i class="fas fa-mobile-alt"></i> Open in Payment App
+    </a>
+
+    <div class="payment-timer" style="margin-top: 25px;">
+        <span class="timer-label">Expires In</span>
+        <span id="qr-timer-val">10:00</span>
+    </div>
+</div>
+        </div>
+
+        <div id="tab-vpa" class="upi-content" style="display:none;">
+            <div class="vpa-box">
+                <label>Enter your UPI ID to Pay</label>
+                <div class="vpa-input-group">
+                    <input type="text" id="user-vpa" placeholder="e.g. 9876543210@upi">
+                    <button class="btn-verify" onclick="CheckoutManager.generateLinkFromVpa()">Verify</button>
+                </div>
+                <div id="vpa-pay-action" style="display:none; margin-top:15px;">
+                    <a id="vpa-pay-link" href="#" target="_blank" class="btn-pay-link">
+                        Pay Now <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="proof-section">
+            <h4 class="proof-title">Upload Payment Proof (Mandatory)</h4>
+            
+            <div class="form-group">
+                <label>Screenshot *</label>
+                <input type="file" id="pay-screenshot" accept="image/*" class="form-control" required>
+                <small style="color:var(--text-muted); font-size:0.8rem;">Please upload the success screen.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Transaction ID / UTR (Optional)</label>
+                <input type="text" id="pay-utr" class="form-control" placeholder="12-digit UTR number">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions" style="margin-top: 30px;">
+        <button class="btn-cancel" onclick="CheckoutManager.showList()">Back</button>
+        
+        <button id="btn-main-action" class="btn-save-addr" onclick="CheckoutManager.processCheckout()">
+            Place Order <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+</div>
+        </div>
+
+        <div id="checkoutFooter" class="checkout-footer-sticky">
+            <div class="footer-content">
+                <div class="selected-summary">
+                    <span>Delivering to:</span>
+                    <strong id="summaryName">Select an address...</strong>
+                </div>
+                <button id="btnFinalPay" class="btn-whatsapp-final disabled" onclick="CheckoutManager.finalizeOrder()">
+                    Continue to Payment <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <div id="paymentSuccessModal" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:white; padding:40px; border-radius:24px; text-align:center; max-width:90%; width:400px; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        <div style="width:80px; height:80px; background:#dcfce7; color:#16a34a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:40px; margin:0 auto 20px auto;">
+            <i class="fas fa-check"></i>
+        </div>
+        <h2 style="color:#0f172a; margin-bottom:10px; font-weight:800;">Booking Confirmed!</h2>
+        <p style="color:#64748b; margin-bottom:25px;">Your order has been placed successfully. You will receive an email shortly.</p>
+        <div style="font-size:0.9rem; color:#94a3b8;">Redirecting to orders... <i class="fas fa-circle-notch fa-spin"></i></div>
+    </div>
+</div>
+<style>@keyframes popIn{from{transform:scale(0.8);opacity:0}to{transform:scale(1);opacity:1}}</style>
+    </main>
+
+    <script src="data.js" defer></script>
+   <script type="module" src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if(typeof CheckoutManager !== 'undefined') CheckoutManager.init();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | Campus Comrade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; padding: 20px; margin: 0; }
+        h1 { color: #0f172a; }
+        .admin-table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; margin-top: 20px; }
+        .admin-table th, .admin-table td { padding: 16px; text-align: left; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+        .admin-table th { background: #f1f5f9; font-weight: 600; color: #475569; font-size: 0.9rem; text-transform: uppercase; }
+        
+        /* Customer & Address Styling */
+        .cust-name { font-weight: 600; color: #0f172a; font-size: 1rem; }
+        .cust-meta { font-size: 0.85rem; color: #64748b; margin-top: 2px; }
+        .cust-addr { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0; font-size: 0.9rem; color: #334155; line-height: 1.4; }
+        
+        /* Proof Thumbnail */
+        .proof-thumb {
+            width: 80px; height: 80px; 
+            object-fit: cover; 
+            border-radius: 6px; 
+            border: 2px solid #e2e8f0;
+            cursor: zoom-in;                            
+            transition: transform 0.2s;
+            background: #f1f5f9;
+        }
+        .proof-thumb:hover { transform: scale(1.05); border-color: #3b82f6; }
+
+        /* --- NEW: Full Screen Modal Styles --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; 
+            z-index: 9999; 
+            left: 0; top: 0;
+            width: 100%; height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+            animation: fadeIn 0.3s;
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90vh;
+            margin-top: 5vh;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-btn:hover { color: #bbb; }
+        @keyframes fadeIn { from {opacity: 0} to {opacity: 1} }
+
+        /* Admin Tab Button Styling */
+        .admin-tab-btn {
+            padding: 10px 20px;
+            background: white;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .admin-tab-btn:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+        .admin-tab-btn.active-tab {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+        
+        .lead-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; }
+        .lead-chip {
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #dbeafe;
+        }
+        .lead-chip a { color: inherit; text-decoration: none; }
+        .delete-lead-btn {
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.1s;
+        }
+        .delete-lead-btn:hover { transform: scale(1.2); }
+    </style>
+</head>
+<body>
+
+    <div style="max-width: 1200px; margin: 0 auto;">
+        <div class="admin-tabs" style="display: flex; gap: 10px; margin-bottom: 25px; padding: 10px; background: #f8fafc; border-radius: 8px; width: fit-content; flex-wrap: wrap;">
+            <button id="tab-buy" onclick="switchAdminTab('buy')" class="admin-tab-btn active-tab">📦 Buy Orders</button>
+            <button id="tab-buy-table" onclick="switchAdminTab('buy-table')" class="admin-tab-btn">📊 Buy Leads Table</button>
+            <button id="tab-sell" onclick="switchAdminTab('sell')" class="admin-tab-btn">🏷️ Sell Requests</button>
+            <button id="tab-sell-table" onclick="switchAdminTab('sell-table')" class="admin-tab-btn">📊 Sell Leads Table</button>
+        </div>
+
+        <div id="buy-orders-section">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                 <h1>📦 Order Management</h1>
+                 <button onclick="location.reload()" style="padding: 10px 20px; cursor:pointer; background:white; border:1px solid #ccc; border-radius:6px; font-weight:600;">🔄 Refresh</button>
+            </div>
+            
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 12%;">Date</th>
+                        <th style="width: 28%;">Customer & Address</th>
+                        <th style="width: 25%;">Items</th>
+                        <th style="width: 10%;">Total</th>
+                        <th style="width: 10%;">Type</th>
+                        <th style="width: 10%;">Proof</th>
+                        <th style="width: 10%;">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-tbody">
+                    <tr><td colspan="7" style="text-align:center; padding:40px;">Loading orders...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="sell-requests-section" style="display: none;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                 <h1>🏷️ Sell Requests</h1>
+                 <button onclick="location.reload()" style="padding: 10px 20px; cursor:pointer; background:white; border:1px solid #ccc; border-radius:6px; font-weight:600;">🔄 Refresh</button>
+            </div>
+            
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 12%;">Date</th>
+                        <th style="width: 25%;">Seller Details</th>
+                        <th style="width: 35%;">Items Offered</th>
+                        <th style="width: 10%;">Price (₹)</th>
+                        <th style="width: 18%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="sell-tbody">
+                    <tr><td colspan="5" style="text-align:center; padding:40px;">Loading sell requests...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="buy-table-section" style="display: none;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                 <h1>📊 Aggregated Buy Leads</h1>
+                 <button onclick="renderBuyLeadsTable()" style="padding: 10px 20px; cursor:pointer; background:white; border:1px solid #ccc; border-radius:6px; font-weight:600;">🔄 Refresh Table</button>
+            </div>
+            <div id="buy-leads-container"></div>
+        </div>
+
+        <div id="sell-table-section" style="display: none;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                 <h1>📊 Aggregated Sell Leads</h1>
+                 <button onclick="renderSellLeadsTable()" style="padding: 10px 20px; cursor:pointer; background:white; border:1px solid #ccc; border-radius:6px; font-weight:600;">🔄 Refresh Table</button>
+            </div>
+            <div id="sell-leads-container"></div>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close-btn">&times;</span>
+        <img class="modal-content" id="fullImage">
+    </div>
+
+    <script>
+        window.viewProof = (src) => {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("fullImage");
+            modal.style.display = "block";
+            modalImg.src = src;
+        }
+        window.closeModal = () => {
+            document.getElementById("imageModal").style.display = "none";
+        }
+
+        window.switchAdminTab = function(tab) {
+            // Toggle sections
+            document.getElementById('buy-orders-section').style.display = tab === 'buy' ? 'block' : 'none';
+            document.getElementById('sell-requests-section').style.display = tab === 'sell' ? 'block' : 'none';
+            document.getElementById('buy-table-section').style.display = tab === 'buy-table' ? 'block' : 'none';
+            document.getElementById('sell-table-section').style.display = tab === 'sell-table' ? 'block' : 'none';
+            
+            // Update Tab Styles
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+            document.getElementById('tab-' + tab).classList.add('active-tab');
+            
+            // Load data dynamically
+            if(tab === 'sell') {
+                if (typeof window.loadSellRequests === 'function') window.loadSellRequests();
+            } else if (tab === 'buy') {
+                if (typeof window.loadAdminOrders === 'function') window.loadAdminOrders();
+            } else if (tab === 'buy-table') {
+                if (typeof window.renderBuyLeadsTable === 'function') window.renderBuyLeadsTable();
+            } else if (tab === 'sell-table') {
+                if (typeof window.renderSellLeadsTable === 'function') window.renderSellLeadsTable();
+            }
+        };
+    </script>
+
+    <script type="module">
+      import { db } from './firebase-config.js';
+        import { collection, query, orderBy, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Password Protection
+        const pass = prompt("Enter Admin Password:");
+        if(pass !== "admin123") { document.body.innerHTML = "<h2 style='color:red;text-align:center;margin-top:50px;'>⛔ Access Denied</h2>"; throw new Error("Stopped"); }
+
+        window.loadAdminOrders = async function() {
+            const tbody = document.getElementById('admin-tbody');
+            if(!tbody) return;
+            const ordersRef = collection(db, "orders");
+            const q = query(ordersRef, orderBy("order_date", "desc"));
+            
+            try {
+                const snapshot = await getDocs(q);
+                tbody.innerHTML = "";
+
+                if (snapshot.empty) {
+                    tbody.innerHTML = "<tr><td colspan='7' style='text-align:center; padding:30px;'>No orders found.</td></tr>"; return;
+                }
+
+                snapshot.forEach(orderDoc => {
+                    const data = orderDoc.data();
+                    const id = orderDoc.id;
+                    
+                    // --- 1. SAFE DATA ---
+                    const cDetails = data.customer_details || {};
+                    const cName = cDetails.name || 'Unknown';
+                    const cPhone = cDetails.phone || 'N/A';
+                    
+                    // --- 2. FULL ADDRESS ---
+                    const fullAddrParts = [
+                        cDetails.street, 
+                        cDetails.landmark ? `(Near ${cDetails.landmark})` : null,
+                        cDetails.zip ? `PIN: ${cDetails.zip}` : null
+                    ];
+                    const fullAddressStr = fullAddrParts.filter(Boolean).join(', ') || 'Address incomplete';
+
+                    
+                   // --- 3. ITEMS (With Customization) ---
+                    let itemsHtml = (data.cart_items || []).map(i => {
+                        let customHtml = '';
+                        if(i.customData && i.customData.names && i.customData.names.length > 0) {
+                            customHtml = `<div style="font-size:0.75rem; color:#b45309; background:#fffbeb; padding:4px 8px; border-radius:4px; margin-top:4px; border:1px solid #fcd34d; display:inline-block;">
+                                <i class="fas fa-pen-fancy"></i> ${i.customData.names.join(', ')}
+                            </div>`;
+                        }
+                        
+                        return `
+                        <div style="margin-bottom:8px; border-bottom:1px dashed #f1f5f9; padding-bottom:6px;">
+                            <div style="font-weight:600; color:#334155;">
+                                ${i.title} <span style="color:#64748b; font-weight:400;">x${i.quantity || i.qty || 1}</span>
+                            </div>
+                            ${customHtml}
+                        </div>`;
+                    }).join('') || 'No Items';
+
+                    const dateStr = data.order_date ? data.order_date.toDate().toLocaleDateString() : 'N/A';
+                    const timeStr = data.order_date ? data.order_date.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <div style="font-weight:600;">${dateStr}</div>
+                            <div style="color:#64748b; font-size:0.85rem;">${timeStr}</div>
+                            <div style="color:#94a3b8; font-size:0.7rem; margin-top:5px;">#${id.slice(0,6)}</div>
+                        </td>
+                        <td>
+                            <div class="cust-name">${cName}</div>
+                            <div class="cust-meta">📞 ${cPhone}</div>
+                            <div class="cust-meta" style="color:#3b82f6;">🎓 ${cDetails.college || ''}</div>
+                            <div class="cust-addr">📍 ${fullAddressStr}</div>
+                        </td>
+                        <td style="font-size:0.9rem;">${itemsHtml}</td>
+                        <td style="font-weight:700;">
+                            <div>₹${data.total_amount}</div>
+                        </td>
+                        <td>
+                            <span style="background:${data.payment_mode === 'cod' ? '#f1f5f9' : '#eff6ff'}; color:${data.payment_mode === 'cod' ? '#64748b' : '#2563eb'}; padding:4px 8px; border-radius:4px; font-weight:600; font-size:0.8rem;">
+                                ${data.payment_mode ? data.payment_mode.toUpperCase() : 'COD'}
+                            </span>
+                        </td>
+                        <td id="proof-${id}">${data.payment_proof ? '✅' : '❌'}</td>
+                        <td>
+                             <select onchange="updateStatus('${id}', this.value)" style="padding:5px; border-radius:4px; border:1px solid #ccc; width:100%;">
+                                <option value="Pending" ${data.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                <option value="Verified" ${data.status === 'Verified' ? 'selected' : ''}>Verified</option>
+                                <option value="Shipped" ${data.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                                <option value="Delivered" ${data.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                <option value="Cancelled" ${data.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                            </select>
+                            <button onclick="deleteOrder('${id}')" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; padding:6px; border-radius:4px; cursor:pointer; font-size:0.75rem; font-weight:600; transition:0.2s; margin-top:5px;">
+                                🗑️ Delete
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        window.loadSellRequests = async function() {
+            const tbody = document.getElementById('sell-tbody');
+            if(!tbody) return;
+            const sellRef = collection(db, "sellRequests");
+            const q = query(sellRef, orderBy("timestamp", "desc"));
+            
+            try {
+                const snapshot = await getDocs(q);
+                tbody.innerHTML = "";
+
+                if (snapshot.empty) {
+                    tbody.innerHTML = "<tr><td colspan='5' style='text-align:center; padding:30px;'>No sell requests found.</td></tr>"; return;
+                }
+
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const id = docSnap.id;
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <div style="font-weight:600;">${data.date.split(',')[0]}</div>
+                            <div style="color:#64748b; font-size:0.85rem;">${data.date.split(',')[1] || ''}</div>
+                        </td>
+                        <td>
+                            <div class="cust-name">${data.name}</div>
+                            <div class="cust-meta">📞 ${data.phone}</div>
+                            <div class="cust-meta" style="color:#3b82f6;">🎓 ${data.college}</div>
+                        </td>
+                        <td style="font-size:0.9rem;">${data.itemsToSell}</td>
+                        <td style="font-weight:700;">₹${data.expectedPrice}</td>
+                        <td>
+                            <div style="display:flex; flex-direction:column; gap:8px;">
+                                <a href="https://wa.me/91${data.phone.replace(/\D/g,'')}?text=${encodeURIComponent('Hi ' + data.name + ', we saw your request to sell ' + data.itemsToSell + ' on Campus Comrade for ₹' + data.expectedPrice + '. Is it still available?')}" 
+                                   target="_blank" 
+                                   style="background: #10b981; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; font-weight: 600; text-align: center;">
+                                   <i class="fab fa-whatsapp"></i> Contact via WA
+                                </a>
+                                <button onclick="deleteSellRequest('${id}')" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; padding:6px; border-radius:4px; cursor:pointer; font-size:0.75rem; font-weight:600; transition:0.2s;">
+                                    🗑️ Delete
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                console.error(err);
+                tbody.innerHTML = `<tr><td colspan="5" style="color:red; text-align:center;">Error loading requests.</td></tr>`;
+            }
+        };
+
+        window.deleteSellRequest = async (id) => {
+            if(!confirm("Are you sure you want to delete this sell request?")) return;
+            try {
+                await deleteDoc(doc(db, "sellRequests", id));
+                window.loadSellRequests();
+            } catch (err) {
+                alert("Error deleting: " + err.message);
+            }
+        };
+
+        window.updateStatus = async (id, newStatus) => {
+            if(!confirm(`Update status to ${newStatus}?`)) return;
+            const orderRef = doc(db, "orders", id);
+            await updateDoc(orderRef, { status: newStatus });
+        };
+
+        loadAdminOrders();
+        window.deleteOrder = async (id) => {
+            if(!confirm("⚠️ Are you sure you want to PERMANENTLY delete this order? It will be removed from the database and the user's history.")) return;
+            
+            try {
+                // Delete from Firestore
+                await deleteDoc(doc(db, "orders", id));
+                // Reload table to show changes
+                loadAdminOrders();
+                // Also reload the aggregated table if it was visible
+                if (document.getElementById('buy-table-section').style.display === 'block') {
+                    window.renderBuyLeadsTable();
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Error deleting order: " + err.message);
+            }
+        };
+
+        // --- Aggregated Leads Implementation ---
+
+        window.renderBuyLeadsTable = async function() {
+            const container = document.getElementById('buy-leads-container');
+            if(!container) return;
+            container.innerHTML = '<div style="text-align:center; padding:40px;">Aggregating buy orders...</div>';
+
+            try {
+                const snapshot = await getDocs(collection(db, "orders"));
+                const aggregated = {};
+
+                snapshot.forEach(orderDoc => {
+                    const data = orderDoc.data();
+                    const orderId = orderDoc.id;
+                    const cDetails = data.customer_details || {};
+                    const items = data.cart_items || [];
+
+                    items.forEach(item => {
+                        const title = item.title || 'Unknown Item';
+                        const qty = parseInt(item.quantity || item.qty || 1);
+
+                        if (!aggregated[title]) {
+                            aggregated[title] = { count: 0, leads: [] };
+                        }
+
+                        aggregated[title].count += qty;
+                        aggregated[title].leads.push({
+                            name: cDetails.name || 'Unknown',
+                            phone: cDetails.phone || 'N/A',
+                            orderId: orderId
+                        });
+                    });
+                });
+
+                let html = `
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Item Name</th>
+                                <th style="width: 15%;">Total Qty</th>
+                                <th style="width: 45%;">Buyer Contact Leads</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+                const sortedTitles = Object.keys(aggregated).sort();
+                if (sortedTitles.length === 0) {
+                    html += '<tr><td colspan="3" style="text-align:center; padding:30px;">No buy leads found.</td></tr>';
+                } else {
+                    sortedTitles.forEach(title => {
+                        const data = aggregated[title];
+                        const leadsHtml = data.leads.map(l => `
+                            <div class="lead-chip">
+                                <a href="https://wa.me/91${l.phone.replace(/\D/g,'')}" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> ${l.phone} (${l.name})
+                                </a>
+                                <i class="fas fa-times delete-lead-btn" onclick="deleteLeadFromAggregator('buy', '${l.orderId}')" title="Delete Order"></i>
+                            </div>
+                        `).join('');
+
+                        html += `
+                            <tr>
+                                <td style="font-weight:600; color:#0f172a;">${title}</td>
+                                <td style="font-weight:700; color:#2563eb; font-size:1.1rem;">${data.count}</td>
+                                <td><div class="lead-list">${leadsHtml}</div></td>
+                            </tr>`;
+                    });
+                }
+
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `<div style="color:red; text-align:center; padding:20px;">Error: ${err.message}</div>`;
+            }
+        };
+
+        window.renderSellLeadsTable = async function() {
+            const container = document.getElementById('sell-leads-container');
+            if(!container) return;
+            container.innerHTML = '<div style="text-align:center; padding:40px;">Aggregating sell requests...</div>';
+
+            try {
+                const snapshot = await getDocs(collection(db, "sellRequests"));
+                const aggregated = {};
+
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const requestId = docSnap.id;
+                    const itemStr = data.itemsToSell || 'Unknown Item';
+
+                    if (!aggregated[itemStr]) {
+                        aggregated[itemStr] = { count: 0, leads: [] };
+                    }
+
+                    aggregated[itemStr].count++;
+                    aggregated[itemStr].leads.push({
+                        name: data.name || 'Unknown',
+                        phone: data.phone || 'N/A',
+                        price: data.expectedPrice || '0',
+                        requestId: requestId
+                    });
+                });
+
+                let html = `
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Proposed Item(s)</th>
+                                <th style="width: 15%;">Total Sellers</th>
+                                <th style="width: 45%;">Seller Contact Leads</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+                const sortedItems = Object.keys(aggregated).sort();
+                if (sortedItems.length === 0) {
+                    html += '<tr><td colspan="3" style="text-align:center; padding:30px;">No sell leads found.</td></tr>';
+                } else {
+                    sortedItems.forEach(item => {
+                        const data = aggregated[item];
+                        const leadsHtml = data.leads.map(l => `
+                            <div class="lead-chip" style="background:#f0fdf4; color:#16a34a; border-color:#dcfce7;">
+                                <a href="https://wa.me/91${l.phone.replace(/\D/g,'')}?text=${encodeURIComponent('Hi ' + l.name + ', I saw your sell request for ' + item + '. Is it still available for ₹' + l.price + '?')}" target="_blank">
+                                    <i class="fab fa-whatsapp"></i> ${l.phone} (₹${l.price})
+                                </a>
+                                <i class="fas fa-times delete-lead-btn" onclick="deleteLeadFromAggregator('sell', '${l.requestId}')" title="Delete Request"></i>
+                            </div>
+                        `).join('');
+
+                        html += `
+                            <tr>
+                                <td style="font-weight:600; color:#0f172a;">${item}</td>
+                                <td style="font-weight:700; color:#16a34a; font-size:1.1rem;">${data.count}</td>
+                                <td><div class="lead-list">${leadsHtml}</div></td>
+                            </tr>`;
+                    });
+                }
+
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `<div style="color:red; text-align:center; padding:20px;">Error: ${err.message}</div>`;
+            }
+        };
+
+        window.deleteLeadFromAggregator = async function(type, id) {
+            if (type === 'buy') {
+                await window.deleteOrder(id);
+                // The aggregated table is refreshed inside deleteOrder if visible
+            } else if (type === 'sell') {
+                if(!confirm("Are you sure you want to delete this sell request?")) return;
+                try {
+                    await deleteDoc(doc(db, "sellRequests", id));
+                    window.renderSellLeadsTable();
+                } catch (err) {
+                    alert("Error deleting: " + err.message);
+                }
+            }
+        };
+    </script>
+</body>
+</html>

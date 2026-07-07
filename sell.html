@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Item | Campus Comrade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+   <header class="app-header">
+       <div class="brand" style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="window.location.href='index.html'">
+            <svg width="42" height="42" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="40" height="40" rx="8" fill="#F1F5F9"/>
+                <path d="M4 14L20 6L36 14L20 22L4 14Z" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 17V24C10 24 13 27 20 27C27 27 30 24 30 24V17" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M36 14V19" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M36 19L32 23L34 28L39 28L41 23L36 19Z" fill="#10B981" stroke="#10B981" stroke-width="2"/>
+                <circle cx="35" cy="22" r="1" fill="white"/>
+            </svg>
+            <div style="line-height: 1.1; display:flex; flex-direction:column;">
+                <span style="font-size: 1.2rem; font-weight: 800; color: #0F172A; letter-spacing: -0.5px;">CAMPUS</span>
+                <span style="font-size: 0.85rem; font-weight: 700; color: #10B981; letter-spacing: 2px; text-transform: uppercase;">COMRADE</span>
+            </div>
+        </div>
+        <nav class="desktop-nav">
+            <a href="index.html">Marketplace</a>
+            <a href="request.html">Requests</a>
+            <a href="sell.html" class="active">Sell Item</a>
+            <a href="contact.html">Contact Us</a>
+        </nav>
+    </header>
+
+    <div class="request-header" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);">
+      <div class="req-icon-circle" style="color: #10B981; background: white;">
+            <i class="fas fa-tags" style="font-size: 1.5rem;"></i>
+      </div>
+        <h1 style="font-size: 2rem; font-weight: 800; color: #064e3b; margin-bottom: 10px;">Sell Your Items</h1>
+        <p style="color: #065f46;">Turn your used books and gear into cash. Our team will review and contact you.</p>
+    </div>
+
+    <main class="request-layout" style="padding: 0 20px 60px 20px;">
+        <div class="req-form-box">
+            <div class="section-label">Seller Details</div>
+            
+            <form id="sellForm">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="seller-name" class="form-control" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Phone Number (WhatsApp) *</label>
+                        <input type="text" id="seller-phone" class="form-control" placeholder="+91 98765 43210" required>
+                    </div>
+                    <div class="form-group">
+                        <label>College / Institute *</label>
+                        <input type="text" id="seller-college" class="form-control" placeholder="e.g. IEM Kolkata" required>
+                    </div>
+                </div>
+
+                <div class="section-label" style="margin-top: 20px;">Offer Details</div>
+
+                <div class="form-group">
+                    <label style="font-weight: bold; font-size: 0.9rem; color: #1e293b; display: block; margin-bottom: 8px;">What are you selling? *</label>
+                    <select id="sellType" required style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 15px;">
+                        <option value="">Select an option...</option>
+                        <option value="all-in-one">All in One Book Set</option>
+                        <option value="separate">Sell Books Separately</option>
+                        <option value="custom">Custom Items / Tools</option>
+                    </select>
+
+                    <div id="all-in-one-container" style="display: none; background: #fffbeb; padding: 10px; border-left: 4px solid #f59e0b; margin-bottom: 15px; border-radius: 4px;">
+                        <p style="margin: 0; font-size: 0.85rem; color: #b45309;"><strong>Note:</strong> If you don't have all the books in the set, please change your selection to 'Sell Books Separately' above.</p>
+                    </div>
+
+                    <div id="separate-container" style="display: none; margin-bottom: 15px;">
+                        <div id="dynamic-book-list">
+                            <select class="separate-book-select" style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px;">
+                                <option value="" disabled selected>Select a book...</option>
+                                <option value="Biology for Engineers">Biology for Engineers</option>
+                                <option value="Programming in ANSI C">Programming in ANSI C</option>
+                                <option value="Engineering Chemistry">Engineering Chemistry</option>
+                                <option value="Electrical Technology Vol 1">Electrical Technology Vol 1 (Basic Electrical)</option>
+                                <option value="Electrical Technology Vol 2">Electrical Technology Vol 2 (AC/DC Machines)</option>
+                                <option value="Electronics Fundamentals">Electronics Fundamentals</option>
+                                <option value="Mastering the Art of English">Mastering the Art of English</option>
+                                <option value="Higher Engineering Mathematics">Higher Engineering Mathematics (B.S. Grewal)</option>
+                                <option value="Engineering Mechanics">Engineering Mechanics</option>
+                                <option value="Engineering Physics">Engineering Physics</option>
+                                <option value="Python for Everybody">Python for Everybody</option>
+                                <option value="Other">Other / Not Listed...</option>
+                            </select>
+                        </div>
+                        <button type="button" id="add-book-btn" style="background: transparent; color: #2563eb; border: 1px dashed #2563eb; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%;"><i class="fas fa-plus"></i> + Add another book</button>
+                    </div>
+
+                    <div id="custom-container" style="display: none; margin-bottom: 15px;">
+                        <textarea id="custom-desc" placeholder="Describe what you are selling (e.g., Drafter, Lab Coat - XL)..." style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; min-height: 80px;"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Expected Price (₹) *</label>
+                    <input type="number" id="seller-price" class="form-control" placeholder="Enter total expected price" required>
+                </div>
+
+                <button type="submit" class="btn-submit" style="background: #10B981; margin-top: 10px;">Submit Sell Request</button>
+            </form>
+        </div>
+
+        <div class="req-sidebar">
+            <div class="sidebar-box">
+                <h3 style="font-size: 1rem; margin-bottom: 20px;">Seller Guidelines</h3>
+                <div class="step-item">
+                    <div class="step-num" style="background: #10B981;">1</div>
+                    <div class="step-text">
+                        <h4>Fair Pricing</h4>
+                        <p>Research current marketplace prices to ensure your offer is competitive.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background: #10B981;">2</div>
+                    <div class="step-text">
+                        <h4>Clear Description</h4>
+                        <p>Mention the condition of items (New, Like New, Good, etc.).</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num" style="background: #10B981;">3</div>
+                    <div class="step-text">
+                        <h4>Be Responsive</h4>
+                        <p>Our team will contact you on WhatsApp to finalize the deal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { db } from './firebase-config.js';
+        import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const sellForm = document.getElementById('sellForm');
+        const sellType = document.getElementById('sellType');
+        const cAllInOne = document.getElementById('all-in-one-container');
+        const cSeparate = document.getElementById('separate-container');
+        const cCustom = document.getElementById('custom-container');
+
+        // Toggle view based on selection
+        sellType.addEventListener('change', (e) => {
+            cAllInOne.style.display = 'none';
+            cSeparate.style.display = 'none';
+            cCustom.style.display = 'none';
+            
+            if(e.target.value === 'all-in-one') cAllInOne.style.display = 'block';
+            if(e.target.value === 'separate') cSeparate.style.display = 'block';
+            if(e.target.value === 'custom') cCustom.style.display = 'block';
+        });
+
+        // Logic to add another book dropdown
+        document.getElementById('add-book-btn').addEventListener('click', () => {
+            const firstSelect = document.querySelector('.separate-book-select');
+            const newSelect = firstSelect.cloneNode(true);
+            document.getElementById('dynamic-book-list').appendChild(newSelect);
+        });
+
+        sellForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('seller-name').value;
+            const phone = document.getElementById('seller-phone').value;
+            const college = document.getElementById('seller-college').value;
+            
+            let itemsToSell = "";
+            if (sellType.value === 'all-in-one') {
+                itemsToSell = "All in One College Book Set";
+            } else if (sellType.value === 'separate') {
+                const selects = document.querySelectorAll('.separate-book-select');
+                let books = Array.from(selects).map(s => s.value);
+                itemsToSell = "Separate Books: " + books.join(', ');
+            } else if (sellType.value === 'custom') {
+                itemsToSell = "Custom Items: " + document.getElementById('custom-desc').value;
+            }
+
+            const price = document.getElementById('seller-price').value;
+
+            const newSellRequest = {
+                id: 'SR' + Date.now().toString().slice(-6),
+                date: new Date().toLocaleString(),
+                timestamp: serverTimestamp(),
+                name: name,
+                phone: phone,
+                college: college,
+                itemsToSell: itemsToSell,
+                expectedPrice: price,
+                status: 'Pending'
+            };
+
+            try {
+                const docRef = await addDoc(collection(db, "sellRequests"), newSellRequest);
+                alert("Your request is submitted! Our team will review and contact you.");
+                sellForm.reset();
+                // Ensure dynamic containers are hidden after reset
+                cAllInOne.style.display = 'none';
+                cSeparate.style.display = 'none';
+                cCustom.style.display = 'none';
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("There was an error submitting your request. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>
