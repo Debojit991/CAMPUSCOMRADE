@@ -2000,3 +2000,51 @@ ul { list-style: none; }
 .step-active { color: #10b981 !important; font-weight: 800 !important; }
 .step-inactive { color: #94a3b8 !important; font-weight: 500 !important; }
 
+/* =========================================
+   Hero Promotional Banner & Animations
+   ========================================= */
+.hero-promo-banner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border: 2px solid #047857;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    animation: pulse-green 2s infinite;
+}
+
+.hero-promo-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes pulse-green {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-promo-banner {
+        font-size: 0.9rem;
+        padding: 12px 20px;
+    }
+}

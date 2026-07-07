@@ -105,8 +105,13 @@ function renderShop(items) {
         let badgesHtml = '';
         if(isB2B) {
             badgesHtml = `<span class="badge-b2b">MOQ: ${p.moq}</span><span class="badge-b2b">GST Invoice</span>`;
-        } else if (p.condition !== 'New') {
-            badgesHtml = `<span style="background:#ecfdf5; color:#059669; font-size:0.7rem; padding:4px 8px; border-radius:4px; font-weight:700;">Pre-owned</span>`;
+        } else {
+            const cond = p.condition || 'Pre-owned';
+            if (cond === 'New' || cond === 'Brand New') {
+                badgesHtml = `<span style="background:#ecfdf5; color:#059669; font-size:0.7rem; padding:4px 8px; border-radius:4px; font-weight:700;">Brand New</span>`;
+            } else {
+                badgesHtml = `<span style="background:#ecfdf5; color:#059669; font-size:0.7rem; padding:4px 8px; border-radius:4px; font-weight:700;">${cond}</span>`;
+            }
         }
         if (p.originalPrice) {
             const discount = Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100);
@@ -534,6 +539,7 @@ function goToProduct(id) {
         }
     }, 400); // 400ms delay gives the browser time to render the new market grid
 }
+window.goToProduct = goToProduct;
 /* ====================
    CART LOGIC (Slide-Out & WhatsApp)
    ==================== */
